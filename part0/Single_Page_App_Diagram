@@ -1,0 +1,23 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    browser->>server: GET /exampleapp/spa
+    activate server
+    server-->>browser: HTML document (single-page app)
+    deactivate server
+
+    Note right of browser: Browser loads the single-page app
+
+    browser->>server: GET /exampleapp/main.css
+    activate server
+    server-->>browser: CSS file
+    deactivate server
+
+    browser->>server: GET /exampleapp/main.js
+    activate server
+    server-->>browser: JavaScript file
+    deactivate server
+
+    browser->>browser: Execute JavaScript code
+    Note right of browser: JavaScript code fetches data and renders the app
