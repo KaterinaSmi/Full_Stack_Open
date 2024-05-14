@@ -1,0 +1,21 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    browser->>browser: User interacts with input field<br/>and types new note
+    Note right of browser: User inputs new note
+
+    browser->>browser: User clicks "Save" button
+    Note right of browser: User initiates note saving
+
+    browser->>browser: Validate input
+    Note right of browser: Input validation
+
+    browser->>server: POST /exampleapp/api/notes {note_data}
+    activate server
+    server-->>server: Save note to database
+    server-->>browser: Note saved successfully
+    deactivate server
+
+    browser->>browser: Update UI with new note
+    Note right of browser: Refresh UI to display new note
