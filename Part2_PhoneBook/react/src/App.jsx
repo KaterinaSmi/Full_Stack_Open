@@ -3,6 +3,9 @@ import Display from './components/Display'
 import Filter from './components/Filter'
 import Form from './components/Form'
 import phonesServices from './services/phones'
+import './index.css'
+import NotificationMessage from './components/NotificationMessage'
+
 
 
 
@@ -13,6 +16,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState(' ')
   const [filter, setFilter] = useState('')
+  const [errorMessage, setErrorMessage] = useState ('Some error occured')
 
   useEffect(() => {
     phonesServices
@@ -45,7 +49,8 @@ const App = () => {
       })
       .catch(error => {
         console.error("Error updating contact", error);
-        alert(`Failed to update ${newName}'s number.`);
+        setErrorMessage("Error updating contact");
+        setTimeout(() => setErrorMessage(null), 5000);
       });
       
     }else{
@@ -57,8 +62,10 @@ const App = () => {
         setNewNumber('')
       })
       .catch(error => {
-        console.error("Error occured", error)
-      })
+        console.error("Error creating contact", error);
+        setErrorMessage("Error creating contact");
+        setTimeout(() => setErrorMessage(null), 5000);
+      });
     };
   };
   const handleDelete = (id) => {
@@ -67,8 +74,12 @@ const App = () => {
     .then(() => {
       setPersons(persons.filter(person => person.id !== id))
     }) .catch(error => {
-      console.error("Failed to delete person: ", error)
-    })
+      console.error("Error removing contact", error);
+      const person = persons.filter(p => p.id = id)
+      const personName = person ? person.name : "this contact"
+      setErrorMessage(`Error removing '${personName}` );
+      setTimeout(() => setErrorMessage(null), 5000);
+    });
 }
   const handlePersonChange = (event) => {
     console.log(event.target.value)
@@ -92,6 +103,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <NotificationMessage message={errorMessage}/>
       <Filter filter={filter} handleFilterChange={handleFilterChange}/>
 
       <h2> Add a New</h2>
