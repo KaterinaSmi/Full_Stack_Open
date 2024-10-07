@@ -2,7 +2,7 @@ import React from "react";
 import axios from 'axios'
 
 
-const apiKey = '09d8a2f896b15149a42abca2aabd354b'
+const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
 const apiUrl = 'https://api.openweathermap.org/data/2.5/weather'
 
 const getWeather = (capital) => {
