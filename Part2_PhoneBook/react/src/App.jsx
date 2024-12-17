@@ -7,16 +7,12 @@ import './index.css'
 import NotificationMessage from './components/NotificationMessage'
 
 
-
-
-
-
 const App = () => {
   const [persons, setPersons] =  useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState(' ')
   const [filter, setFilter] = useState('')
-  const [errorMessage, setErrorMessage] = useState ('Some error occured')
+  const [errorMessage, setErrorMessage] = useState ('No errors yet')
 
   useEffect(() => {
     phonesServices
@@ -49,7 +45,7 @@ const App = () => {
       })
       .catch(error => {
         console.error("Error updating contact", error);
-        setErrorMessage("Error updating contact");
+        setErrorMessage(error.response.data.error );
         setTimeout(() => setErrorMessage(null), 5000);
       });
       
@@ -63,7 +59,7 @@ const App = () => {
       })
       .catch(error => {
         console.error("Error creating contact", error);
-        setErrorMessage("Error creating contact");
+        setErrorMessage(error.response.data.error );
         setTimeout(() => setErrorMessage(null), 5000);
       });
     };
@@ -77,7 +73,7 @@ const App = () => {
       console.error("Error removing contact", error);
       const person = persons.filter(p => p.id = id)
       const personName = person ? person.name : "this contact"
-      setErrorMessage(`Error removing '${personName}` );
+      setErrorMessage(error.response.data.error );
       setTimeout(() => setErrorMessage(null), 5000);
     });
 }

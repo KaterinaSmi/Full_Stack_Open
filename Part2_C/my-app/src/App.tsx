@@ -24,7 +24,10 @@ const App = () => {
       .then(initialNotes => {
         setNotes(initialNotes);
       })
-      .catch(error => setErrorMessage("Error fetching data"))
+      .catch(error => {
+        console.error(error); // Log the error for debugging
+        setErrorMessage("Error fetching data");
+      });
         setTimeout(() => setErrorMessage(null), 5000);
   }, []);
 
@@ -33,7 +36,7 @@ const App = () => {
     const noteObject: Note = {
       content: newNote,
       important: Math.random() < 0.5,
-      id: notes.length + 1, // Ensure id is a number
+      id: notes.length + 1, 
     }
     
     notesServices
@@ -43,6 +46,7 @@ const App = () => {
       setNotes(notes.concat(returnedNote));
       setNewNote('');
     }).catch(error => {
+      console.error(error)
       setErrorMessage('Failed to add note');
       setTimeout(() => setErrorMessage(null), 5000);
     });
@@ -62,6 +66,7 @@ const App = () => {
       setNotes(notes.map(n=> n.id !== id ? n : returnedNote ))
     })
     .catch(error => {
+      console.error(error)
       setErrorMessage( `Note '${note.content}' was already removed from the server` )
       setTimeout(()=> {
         setErrorMessage(null)
